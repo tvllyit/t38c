@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"github.com/tvllyit/t38c"
 	"github.com/twpayne/go-geom"
 	"github.com/twpayne/go-geom/encoding/geojson"
-	"github.com/xjem/t38c"
 )
 
 func testWithin(t *testing.T, client *t38c.Client) {

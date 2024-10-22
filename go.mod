@@ -1,8 +1,6 @@
-module github.com/xjem/t38c
+module github.com/tvllyit/t38c
 
-go 1.21
-
-toolchain go1.22.2
+go 1.22
 
 require (
 	github.com/mediocregopher/radix/v4 v4.1.1
@@ -10,6 +8,7 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/tidwall/gjson v1.14.3
 	github.com/twpayne/go-geom v1.5.7
+	github.com/tvllyit/t38c v0.11.0
 )
 
 require (

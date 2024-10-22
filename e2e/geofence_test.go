@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/twpayne/go-geom"
 	"github.com/twpayne/go-geom/encoding/geojson"
-	"github.com/xjem/t38c"
+	"github.com/tvllyit/t38c"
 )
 
 func testGeofence(t *testing.T, client *t38c.Client) {
