@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"time"
 
-	geojson "github.com/paulmach/go.geojson"
 	"github.com/tidwall/gjson"
+	"github.com/twpayne/go-geom/encoding/geojson"
 )
 
 type field struct {
@@ -53,11 +53,11 @@ func (ob *Object) UnmarshalJSON(data []byte) error {
 	var err error
 	switch objectType.String() {
 	case "FeatureCollection":
-		ob.FeatureCollection, err = geojson.UnmarshalFeatureCollection(data)
+		err = ob.FeatureCollection.UnmarshalJSON(data)
 	case "Feature":
-		ob.Feature, err = geojson.UnmarshalFeature(data)
+		err = ob.Feature.UnmarshalJSON(data)
 	default:
-		ob.Geometry, err = geojson.UnmarshalGeometry(data)
+		err = ob.Geometry.BBox.UnmarshalJSON(data)
 	}
 
 	return err

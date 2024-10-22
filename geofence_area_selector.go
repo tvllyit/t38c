@@ -3,7 +3,7 @@ package t38c
 import (
 	"strconv"
 
-	geojson "github.com/paulmach/go.geojson"
+	"github.com/twpayne/go-geom/encoding/geojson"
 )
 
 // GeofenceAreaSelector struct
@@ -57,7 +57,7 @@ func (selector GeofenceAreaSelector) Feature(ft *geojson.Feature) GeofenceQueryB
 
 // Geometry - GeoJSON Geometry object.
 func (selector GeofenceAreaSelector) Geometry(gm *geojson.Geometry) GeofenceQueryBuilder {
-	b, err := gm.MarshalJSON()
+	b, err := gm.Geometries.MarshalJSON()
 	if err != nil {
 		panic(err)
 	}

@@ -3,7 +3,7 @@ package t38c
 import (
 	"strconv"
 
-	geojson "github.com/paulmach/go.geojson"
+	"github.com/twpayne/go-geom/encoding/geojson"
 )
 
 // InwAreaSelector struct
@@ -58,7 +58,7 @@ func (selector InwAreaSelector) Feature(ft *geojson.Feature) InwQueryBuilder {
 
 // Geometry - GeoJSON Geometry object.
 func (selector InwAreaSelector) Geometry(gm *geojson.Geometry) InwQueryBuilder {
-	b, err := gm.MarshalJSON()
+	b, err := gm.Geometries.MarshalJSON()
 	if err != nil {
 		panic(err)
 	}

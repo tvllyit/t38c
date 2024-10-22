@@ -8,8 +8,9 @@ import (
 	"testing"
 	"time"
 
-	geojson "github.com/paulmach/go.geojson"
 	"github.com/stretchr/testify/require"
+	"github.com/twpayne/go-geom"
+	"github.com/twpayne/go-geom/encoding/geojson"
 	"github.com/xjem/t38c"
 )
 
@@ -34,26 +35,24 @@ func testGeofence(t *testing.T, client *t38c.Client) {
 		fmt.Printf("event: %s\n", b)
 		switch n {
 		case 0:
+			p := geom.NewPoint(geom.XY).MustSetCoords(geom.Coord{-112, 33})
+			gj, _ := geojson.Encode(p)
 			require.Equal(t, event.Command, "set")
 			require.Equal(t, event.Detect, "enter")
 			require.Equal(t, event.Key, "geofence-test")
 			require.Equal(t, event.ID, "1")
 			require.Equal(t, event.Object, &t38c.Object{
-				Geometry: &geojson.Geometry{
-					Type:  geojson.GeometryPoint,
-					Point: []float64{-112, 33},
-				},
+				Geometry: gj,
 			})
 		case 1:
+			p := geom.NewPoint(geom.XY).MustSetCoords(geom.Coord{-150, 40})
+			gj, _ := geojson.Encode(p)
 			require.Equal(t, event.Command, "set")
 			require.Equal(t, event.Detect, "exit")
 			require.Equal(t, event.Key, "geofence-test")
 			require.Equal(t, event.ID, "1")
 			require.Equal(t, event.Object, &t38c.Object{
-				Geometry: &geojson.Geometry{
-					Type:  geojson.GeometryPoint,
-					Point: []float64{-150, 40},
-				},
+				Geometry: gj,
 			})
 			return errOk
 		}
