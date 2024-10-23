@@ -16,7 +16,7 @@ func main() {
 		Debug:   true,
 	})
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("unable to connect to tile38 %v", err)
 	}
 	defer tile38.Close()
 
@@ -26,11 +26,11 @@ func main() {
 		Field("speed", 90).
 		Field("age", 21).
 		Do(context.TODO()); err != nil {
-		log.Fatal(err)
+		log.Fatalf("unable to set field %v", err)
 	}
 
 	// To set a field when an object already exists:
 	if err := tile38.Keys.FSet("fleet", "truck1").Field("speed", 90).Do(context.TODO()); err != nil {
-		log.Fatal(err)
+		log.Fatalf("faield to fset field %v", err)
 	}
 }
