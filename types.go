@@ -1,6 +1,8 @@
 package t38c
 
 import (
+	"encoding/json"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -57,7 +59,12 @@ func (ob *Object) UnmarshalJSON(data []byte) error {
 	case "Feature":
 		err = ob.Feature.UnmarshalJSON(data)
 	default:
-		err = ob.Geometry.BBox.UnmarshalJSON(data)
+		var g geojson.Geometry
+		err = json.Unmarshal(data, &g)
+		if err != nil {
+			return fmt.Errorf("failed to unmarshal geometry %v", err)
+		}
+		ob.Geometry = &g
 	}
 
 	return err

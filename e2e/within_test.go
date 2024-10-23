@@ -23,7 +23,9 @@ func testWithin(t *testing.T, client *t38c.Client) {
 			{0, 0},
 		},
 	})
-	gj, _ := geojson.Encode(p)
+
+	gj, err := geojson.Encode(p)
+	require.NoError(t, err)
 
 	err = client.Keys.Set("areas", "area-1").Geometry(gj).Do(context.Background())
 	require.NoError(t, err)

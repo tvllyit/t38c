@@ -5,9 +5,10 @@ import (
 	"testing"
 	"time"
 
-	geojson "github.com/paulmach/go.geojson"
 	"github.com/stretchr/testify/require"
 	"github.com/tvllyit/t38c"
+	"github.com/twpayne/go-geom"
+	"github.com/twpayne/go-geom/encoding/geojson"
 )
 
 func testKeys(t *testing.T, client *t38c.Client) {
@@ -19,14 +20,19 @@ func testKeys(t *testing.T, client *t38c.Client) {
 
 	resp, err := client.Keys.Get("foo", "baz").WithFields().Object(context.Background())
 	require.NoError(t, err)
+	p := geom.NewPolygon(geom.XY).MustSetCoords([][]geom.Coord{
+		{
+			{0, 0},
+			{20, 0},
+			{20, 20},
+			{0, 20},
+			{0, 0},
+		},
+	})
+	gj, err := geojson.Encode(p)
+	require.NoError(t, err)
 
-	require.Equal(t, geojson.NewPolygonGeometry([][][]float64{{
-		{0, 0},
-		{20, 0},
-		{20, 20},
-		{0, 20},
-		{0, 0},
-	}}), resp.Object.Geometry)
+	require.Equal(t, gj, resp.Object.Geometry)
 
 	time.Sleep(time.Second * 3)
 
@@ -35,12 +41,16 @@ func testKeys(t *testing.T, client *t38c.Client) {
 }
 
 func testKeysGet(t *testing.T, client *t38c.Client) {
+
+	p := geom.NewPoint(geom.XY).MustSetCoords(geom.Coord{2, 1})
+	gj, _ := geojson.Encode(p)
+
 	require.NoError(t, client.Keys.Set("foo", "bar").Point(1, 2).Do(context.Background()))
 	// Check object.
 	{
 		resp, err := client.Keys.Get("foo", "bar").Object(context.Background())
 		require.NoError(t, err)
-		require.Equal(t, geojson.NewPointGeometry([]float64{2, 1}), resp.Object.Geometry)
+		require.Equal(t, gj, resp.Object.Geometry)
 	}
 
 	// Check point.

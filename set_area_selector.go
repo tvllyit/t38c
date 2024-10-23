@@ -1,6 +1,10 @@
 package t38c
 
-import "github.com/twpayne/go-geom/encoding/geojson"
+import (
+	"encoding/json"
+
+	"github.com/twpayne/go-geom/encoding/geojson"
+)
 
 // SetAreaSelector struct
 type SetAreaSelector struct {
@@ -53,7 +57,7 @@ func (selector SetAreaSelector) Feature(ft *geojson.Feature) SetQueryBuilder {
 
 // Geometry - set GeoJSON Geometry object.
 func (selector SetAreaSelector) Geometry(gm *geojson.Geometry) SetQueryBuilder {
-	b, _ := gm.Geometries.MarshalJSON()
+	b, _ := json.Marshal(gm)
 	area := newCmd("OBJECT", string(b))
 	return newSetQueryBuilder(selector.client, selector.key, selector.objectID, area)
 }
