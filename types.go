@@ -55,9 +55,19 @@ func (ob *Object) UnmarshalJSON(data []byte) error {
 	var err error
 	switch objectType.String() {
 	case "FeatureCollection":
-		err = ob.FeatureCollection.UnmarshalJSON(data)
+		var fc geojson.FeatureCollection
+		err = fc.UnmarshalJSON(data)
+		if err != nil {
+			return fmt.Errorf("failed to unmarshal feature collection %v", err)
+		}
+		ob.FeatureCollection = &fc
 	case "Feature":
-		err = ob.Feature.UnmarshalJSON(data)
+		var f geojson.Feature
+		err = f.UnmarshalJSON(data)
+		if err != nil {
+			return fmt.Errorf("failed to unmarshal feature %v", err)
+		}
+		ob.Feature = &f
 	default:
 		var g geojson.Geometry
 		err = json.Unmarshal(data, &g)
@@ -67,7 +77,7 @@ func (ob *Object) UnmarshalJSON(data []byte) error {
 		ob.Geometry = &g
 	}
 
-	return err
+	return nil
 }
 
 // SearchResponse is a tile38 search response.
