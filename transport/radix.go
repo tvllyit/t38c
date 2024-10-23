@@ -82,7 +82,8 @@ func (r *Radix) ExecuteStream(ctx context.Context, handler func([]byte) error, c
 	}
 
 	if !gjson.GetBytes(resp, "ok").Bool() {
-		return fmt.Errorf(gjson.GetBytes(resp, "err").String())
+		err := gjson.GetBytes(resp, "err").String()
+		return fmt.Errorf("execute stream err %s", err)
 	}
 
 	for {

@@ -109,7 +109,8 @@ func (client *Client) Execute(ctx context.Context, command string, args ...strin
 	}
 
 	if !gjson.GetBytes(resp, "ok").Bool() {
-		return nil, fmt.Errorf(gjson.GetBytes(resp, "err").String())
+		err := gjson.GetBytes(resp, "err").String()
+		return nil, fmt.Errorf("client execute error %s", err)
 	}
 
 	return resp, nil
