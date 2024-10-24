@@ -9,9 +9,10 @@ import (
 // InwAreaSelector struct
 // Intersects Nearby Within
 type InwAreaSelector struct {
-	client tile38Client
-	cmd    string
-	key    string
+	client   tile38Client
+	cmd      string
+	key      string
+	rawQuery []string
 }
 
 func newInwAreaSelector(client tile38Client, cmd, key string) InwAreaSelector {

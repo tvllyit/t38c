@@ -30,6 +30,10 @@ func (query InwQueryBuilder) toCmd() cmd {
 		args = append(args, query.outputFormat.Args...)
 	}
 
+	for _, query := range query.searchOpts.RawQuery {
+		args = append(args, "WHERE", query)
+	}
+
 	args = append(args, query.area.Name)
 	args = append(args, query.area.Args...)
 	return newCmd(query.cmd, args...)
@@ -147,5 +151,11 @@ func (query InwQueryBuilder) NoFields() InwQueryBuilder {
 // Format set response format.
 func (query InwQueryBuilder) Format(fmt OutputFormat) InwQueryBuilder {
 	query.outputFormat = &fmt
+	return query
+}
+
+// RawQuery provided expression
+func (query InwQueryBuilder) RawQuery(rawQuery string) InwQueryBuilder {
+	query.searchOpts.RawQuery = append(query.searchOpts.RawQuery, rawQuery)
 	return query
 }
