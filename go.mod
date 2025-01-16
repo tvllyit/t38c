@@ -6,7 +6,7 @@ require (
 	github.com/mediocregopher/radix/v4 v4.1.4
 	github.com/stretchr/testify v1.9.0
 	github.com/tidwall/gjson v1.18.0
-	github.com/twpayne/go-geom v1.5.7
+	github.com/twpayne/go-geom v1.6.0
 )
 
 require (
