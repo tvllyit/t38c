@@ -70,7 +70,7 @@ func (r *Radix) ExecuteStream(ctx context.Context, handler func([]byte) error, c
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
+	defer func() { _ = conn.Close() }()
 
 	if err := radixPrepareConn(ctx, conn, r.password); err != nil {
 		return err

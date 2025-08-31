@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     services:
       tile38:
-        image: tile38/tile38:latest
+        image: tile38/tile38:1.36.0
         ports:
           - 9851:9851
     steps:
       - name: Checkout latest code
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v5
 
       - name: Install Go
-        uses: actions/setup-go@v2.1.3
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.22
+          go-version: 1.25
 
       - name: Download dependencies
         run: go mod download && go mod tidy

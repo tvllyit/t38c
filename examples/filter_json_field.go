@@ -17,7 +17,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("unable to connect to tile38 %v", err)
 	}
-	defer tile38.Close()
+	defer func() { _ = tile38.Close() }()
 	g := geom.NewPoint(geom.XY).MustSetCoords(geom.Coord{33.5123, -112.2693})
 	feature := &geojson.Feature{Geometry: g}
 	feature.Properties = map[string]interface{}{
@@ -32,9 +32,9 @@ func main() {
 		"name":  "Andy",
 		"age":   "25",
 	}
-	tile38.Keys.Set("fleet", "carol").Feature(feature).Do(context.Background())
-	tile38.Keys.Set("fleet", "andy").Feature(f2).Do(context.Background())
+	_ = tile38.Keys.Set("fleet", "carol").Feature(feature).Do(context.Background())
+	_ = tile38.Keys.Set("fleet", "andy").Feature(f2).Do(context.Background())
 
 	// references: https://tile38.com/topics/filter-expressions
-	tile38.Search.Scan("fleet").RawQuery("properties.age == 25 && properties.speed > 50").Do(context.Background())
+	_, _ = tile38.Search.Scan("fleet").RawQuery("properties.age == 25 && properties.speed > 50").Do(context.Background())
 }
